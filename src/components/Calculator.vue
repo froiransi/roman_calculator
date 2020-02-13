@@ -219,7 +219,7 @@ export default {
         case '4':
           return this.i+this.v;
         case '5':
-          return this.dv
+          return this.v;
         case '6':
           return this.v+this.i;
         case '7':
