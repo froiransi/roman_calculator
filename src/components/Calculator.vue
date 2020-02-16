@@ -33,6 +33,9 @@ export default {
     this.sum = "";
     this.total = "";
     this.readyToAdd = false;
+    this.readyToSubstract = false;
+    this.readyToTimes = false;
+    this.operation = "";
     this.new = false;
   },
   computed:{
@@ -55,6 +58,8 @@ export default {
       this.sum = "";
       this.total = "";
       this.readyToAdd = false;
+      this.readyToSubstract = false;
+      this.readyToTimes = false;
       this.new = false;
       this.m = "M";
       this.d = "D";
@@ -114,6 +119,29 @@ export default {
       if (!this.readyToAdd){
         this.readyToAdd = true;
         this.firstNumber = this.parse_roman(this.sum);
+        this.operation = '+';
+        this.sum = "";
+      } else {
+          this.secondNumber = this.parse_roman(this.sum);
+      }
+    },
+
+    substraction(){
+      if (!this.readyToSubstract){
+        this.readyToSubstract = true;
+        this.firstNumber = this.parse_roman(this.sum);
+        this.operation = '-';
+        this.sum = "";
+      } else {
+          this.secondNumber = this.parse_roman(this.sum);
+      }
+    },
+
+    times(){
+      if (!this.readyToTimes){
+        this.readyToTimes = true;
+        this.firstNumber = this.parse_roman(this.sum);
+        this.operation = '*';
         this.sum = "";
       } else {
           this.secondNumber = this.parse_roman(this.sum);
@@ -121,15 +149,36 @@ export default {
     },
 
     final(){
-      if(this.readyToAdd){
+      if(this.readyToAdd || this.readyToSubstract || this.readyToTimes){
         if (!this.sum){
           alert('You must enter a second number');
         } else {
-          this.secondNumber = this.parse_roman(this.sum);
-          this.total = this.firstNumber + this.secondNumber;
-          this.firstNumber = this.total;
-          this.sum = this.parse_decimal(this.total);
-          this.new = true;
+
+            switch (this.operation) {
+              case '+':
+                this.secondNumber = this.parse_roman(this.sum);
+                this.total = this.firstNumber + this.secondNumber;
+                this.firstNumber = this.total;
+                this.sum = this.parse_decimal(this.total);
+                this.new = true;
+                break;
+              case '-':
+                this.secondNumber = this.parse_roman(this.sum);
+                this.total = this.firstNumber - this.secondNumber;
+                this.firstNumber = this.total;
+                this.sum = this.parse_decimal(this.total);
+                this.new = true;
+                break;
+              case '*':
+                this.secondNumber = this.parse_roman(this.sum);
+                this.total = this.firstNumber * this.secondNumber;
+                this.firstNumber = this.total;
+                this.sum = this.parse_decimal(this.total);
+                this.new = true;
+                break;
+              default:
+                break;
+            }
         }
       } else {
         alert('You must enter two numbers to start');
