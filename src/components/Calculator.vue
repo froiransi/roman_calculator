@@ -6,19 +6,19 @@
         <input class="screen text-right pr-2 my-4" :disabled="true" placeholder="0" :value="sum">
       </div>
       <div class="row mx-1">
-        <div class="col-8">
-        <button class="btn btn-primary btn-shrt" type="button" @click="concatDigit('M')" >M</button>
-        <button class="btn btn-primary btn-shrt" type="button" @click="concatDigit('D')" >D</button>
-        <button class="btn btn-primary btn-shrt" type="button" @click="concatDigit('C')" >C</button>
-        <button class="btn btn-primary btn-shrt" type="button" @click="concatDigit('L')" >L</button>
-        <button class="btn btn-primary btn-shrt" type="button" @click="concatDigit('X')" >X</button>
-        <button class="btn btn-primary btn-shrt" type="button" @click="concatDigit('V')" >V</button>
-        <button class="btn btn-primary btn-shrt" type="button" @click="concatDigit('I')" >I</button>
-        <button class="btn btn-primary btn-shrt" type="button" @click="addition()">+</button>
-        </div>
-        <div class="col-4">
-          <button class="btn btn-lng btn-primary" type="button" @click="reset()" >CE</button>
-          <button class="btn btn-lng btn-primary" type="button" @click="final()">=</button>
+        <div class="col-12">
+          <button class="btn btn-primary btn-shrt" type="button" @click="concatDigit('M')" >M</button>
+          <button class="btn btn-primary btn-shrt" type="button" @click="concatDigit('D')" >D</button>
+          <button class="btn btn-primary btn-shrt" type="button" @click="addition()">+</button>
+          <button class="btn btn-primary btn-shrt" type="button" @click="concatDigit('C')" >C</button>
+          <button class="btn btn-primary btn-shrt" type="button" @click="concatDigit('L')" >L</button>
+          <button class="btn btn-primary btn-shrt" type="button" @click="substraction()">-</button>
+          <button class="btn btn-primary btn-shrt" type="button" @click="concatDigit('X')" >X</button>
+          <button class="btn btn-primary btn-shrt" type="button" @click="concatDigit('V')" >V</button>
+          <button class="btn btn-primary btn-shrt" type="button" @click="times()">*</button>
+          <button class="btn btn-primary btn-shrt" type="button" @click="concatDigit('I')" >I</button>
+          <button class="btn btn-primary btn-shrt" type="button" @click="reset()" >CE</button>
+          <button class="btn btn-primary btn-shrt" type="button" @click="final()">=</button>
         </div>
       </div>
     </div>
@@ -33,13 +33,20 @@ export default {
     this.sum = "";
     this.total = "";
     this.readyToAdd = false;
+    this.new = false;
   },
   computed:{
   },
   methods:{
 
     concatDigit(digit){
-    this.sum = this.sum.concat(digit);
+      if(this.new){
+        this.sum = "";
+        this.sum = this.sum.concat(digit);
+        this.new = false;
+      } else {
+        this.sum = this.sum.concat(digit);
+      }
     },
 
     reset(){
@@ -48,6 +55,7 @@ export default {
       this.sum = "";
       this.total = "";
       this.readyToAdd = false;
+      this.new = false;
       this.m = "M";
       this.d = "D";
       this.c = "C";
@@ -108,7 +116,7 @@ export default {
         this.firstNumber = this.parse_roman(this.sum);
         this.sum = "";
       } else {
-        this.secondNumber = this.parse_roman(this.sum);
+          this.secondNumber = this.parse_roman(this.sum);
       }
     },
 
@@ -119,7 +127,9 @@ export default {
         } else {
           this.secondNumber = this.parse_roman(this.sum);
           this.total = this.firstNumber + this.secondNumber;
+          this.firstNumber = this.total;
           this.sum = this.parse_decimal(this.total);
+          this.new = true;
         }
       } else {
         alert('You must enter two numbers to start');

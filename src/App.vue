@@ -49,27 +49,15 @@ export default {
   font-size: 2.5rem;
 }
 
-.btn-lng {
-  width: 90%;
-  margin: 0.25rem;
-  margin-left: -0.75rem !important;
-  height: 64%;
-  background-color: #d15f41;
-  border: none;
-  box-shadow: 2px 2px 2px gray;
-  font-weight: 700;
-  font-size: 1.8rem;
-}
-
 .btn-shrt{
-  width: 45%;
+  width: 30%;
   margin: 0.25rem;
   height: 30%;
   background-color: #d15f41;
   border: none;
   box-shadow: 2px 2px 2px gray;
-  font-weight: 700;
-  font-size: 1rem;
+  font-weight: 900;
+  font-size: 1.15rem;
 }
 
 .btn:disabled,
@@ -84,44 +72,25 @@ export default {
 
 @media (max-width: 768px) {
   .calc {
-    width: 70%;
+    width: 75%;
     height: 28rem;
   }
+}
 
-  .btn-lng {
-    width: 100%;
-  }
+@media (max-width: 360px) {
+
+.screen {
+  width: 100%;
+  font-size: 2rem;
+}
 
   .btn-shrt{
-    width: 45%;
+    width: 27%;
+    font-size: 1rem;
   }
 }
 
-@media (max-width: 576px) {
-  .calc {
-    width: 80%;
-  }
-
-  .btn-shrt{
-    width: 44%;
-  }
-}
-
-@media (max-width: 448px) {
-  .calc {
-    width: 90%;
-  }
-
-  .btn-lng{
-    margin-left: -1.25rem !important;
-  }
-
-  .btn-shrt{
-    width: 40%;
-  }
-}
-
-@media (max-width: 300px) {
+@media (max-width: 324px) {
   #app {
     display: none;
   }
