@@ -60,7 +60,6 @@ export default {
   font-size: 1.15rem;
 }
 
-.btn:disabled,
 .btn:focus,
 .btn:active,
 .btn:hover {
@@ -68,6 +67,13 @@ export default {
   box-shadow: none;
   background-color: #8c2420;
   opacity: 1 !important;
+}
+
+.btn:disabled {
+  opacity: 70%;
+  outline: none !important;
+  box-shadow: none;
+  background-color: lightgrey;
 }
 
 @media (max-width: 768px) {

@@ -7,16 +7,16 @@
       </div>
       <div class="row mx-1">
         <div class="col-12">
-          <button class="btn btn-primary btn-shrt" type="button" @click="concatDigit('M')" >M</button>
-          <button class="btn btn-primary btn-shrt" type="button" @click="concatDigit('D')" >D</button>
+          <button class="btn btn-primary btn-shrt" :disabled="disable('M')" type="button" @click="concat_digit('M')" >M</button>
+          <button class="btn btn-primary btn-shrt" :disabled="disable('D')" type="button" @click="concat_digit('D')" >D</button>
           <button class="btn btn-primary btn-shrt" type="button" @click="addition()">+</button>
-          <button class="btn btn-primary btn-shrt" type="button" @click="concatDigit('C')" >C</button>
-          <button class="btn btn-primary btn-shrt" type="button" @click="concatDigit('L')" >L</button>
+          <button class="btn btn-primary btn-shrt" :disabled="disable('C')" type="button" @click="concat_digit('C')" >C</button>
+          <button class="btn btn-primary btn-shrt" :disabled="disable('L')" type="button" @click="concat_digit('L')" >L</button>
           <button class="btn btn-primary btn-shrt" type="button" @click="substraction()">-</button>
-          <button class="btn btn-primary btn-shrt" type="button" @click="concatDigit('X')" >X</button>
-          <button class="btn btn-primary btn-shrt" type="button" @click="concatDigit('V')" >V</button>
+          <button class="btn btn-primary btn-shrt" :disabled="disable('X')" type="button" @click="concat_digit('X')" >X</button>
+          <button class="btn btn-primary btn-shrt" :disabled="disable('V')" type="button" @click="concat_digit('V')" >V</button>
           <button class="btn btn-primary btn-shrt" type="button" @click="times()">*</button>
-          <button class="btn btn-primary btn-shrt" type="button" @click="concatDigit('I')" >I</button>
+          <button class="btn btn-primary btn-shrt" :disabled="disable('I')" type="button" @click="concat_digit('I')" >I</button>
           <button class="btn btn-primary btn-shrt" type="button" @click="reset()" >CE</button>
           <button class="btn btn-primary btn-shrt" type="button" @click="final()">=</button>
         </div>
@@ -37,18 +37,71 @@ export default {
     this.readyToTimes = false;
     this.operation = "";
     this.new = false;
+    this.lastDigit = "";
   },
   computed:{
   },
   methods:{
 
-    concatDigit(digit){
+    concat_digit(digit){
+
+      this.lastDigit = digit;
+
       if(this.new){
         this.sum = "";
         this.sum = this.sum.concat(digit);
         this.new = false;
       } else {
         this.sum = this.sum.concat(digit);
+      }
+    },
+
+    disable(digit){
+      if(this.lastDigit){
+        switch(digit){
+          case 'M':
+            if(this.lastDigit == 'M' || this.lastDigit == 'C') {
+              return false;
+            } else {
+              return true;
+            }
+          case 'D':
+            if(this.lastDigit == 'M' || this.lastDigit == 'C') {
+              return false;
+            } else {
+              return true;
+            }
+            
+          case 'C':
+            if(this.lastDigit == 'L' || this.lastDigit == 'X' || this.lastDigit == 'V' || this.lastDigit == 'I') {
+              return true;
+            } else {
+              return false;
+            }
+            
+          case 'L':
+            if(this.lastDigit == 'L' || this.lastDigit == 'V' || this.lastDigit == 'I') {
+              return true;
+            } else {
+              return false;
+            }
+            
+          case 'X':
+            if(this.lastDigit == 'V' || this.lastDigit == 'I') {
+              return true;
+            } else {
+              return false;
+            }
+          
+          case 'V':
+            if(this.lastDigit == 'V') {
+              return true;
+            } else {
+              return false;
+            }
+          default:
+            return false;
+        }
       }
     },
 
@@ -61,6 +114,7 @@ export default {
       this.readyToSubstract = false;
       this.readyToTimes = false;
       this.new = false;
+      this.lastDigit = "";
       this.m = "M";
       this.d = "D";
       this.c = "C";
@@ -121,8 +175,9 @@ export default {
         this.firstNumber = this.parse_roman(this.sum);
         this.operation = '+';
         this.sum = "";
+        this.lastDigit = "";
       } else {
-          this.secondNumber = this.parse_roman(this.sum);
+        this.secondNumber = this.parse_roman(this.sum);
       }
     },
 
@@ -132,8 +187,9 @@ export default {
         this.firstNumber = this.parse_roman(this.sum);
         this.operation = '-';
         this.sum = "";
+        this.lastDigit = "";
       } else {
-          this.secondNumber = this.parse_roman(this.sum);
+        this.secondNumber = this.parse_roman(this.sum);
       }
     },
 
@@ -143,8 +199,9 @@ export default {
         this.firstNumber = this.parse_roman(this.sum);
         this.operation = '*';
         this.sum = "";
+        this.lastDigit = "";
       } else {
-          this.secondNumber = this.parse_roman(this.sum);
+        this.secondNumber = this.parse_roman(this.sum);
       }
     },
 
@@ -161,6 +218,7 @@ export default {
                 this.firstNumber = this.total;
                 this.sum = this.parse_decimal(this.total);
                 this.new = true;
+                this.lastDigit = "";
                 break;
               case '-':
                 this.secondNumber = this.parse_roman(this.sum);
@@ -168,6 +226,7 @@ export default {
                 this.firstNumber = this.total;
                 this.sum = this.parse_decimal(this.total);
                 this.new = true;
+                this.lastDigit = "";
                 break;
               case '*':
                 this.secondNumber = this.parse_roman(this.sum);
@@ -175,6 +234,7 @@ export default {
                 this.firstNumber = this.total;
                 this.sum = this.parse_decimal(this.total);
                 this.new = true;
+                this.lastDigit = "";
                 break;
               default:
                 break;
@@ -300,6 +360,10 @@ export default {
       secondNumber: "",
       total: "",
       readyToAdd: false,
+      readyToSubstract: false,
+      readyToTimes: false,
+      new: false,
+      lastDigit: "",
       m: "M",
       d: "D",
       c: "C",
